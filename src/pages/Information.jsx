@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { Container, Typography, Button, TextField, Grid, FormGroup, Box } from '@material-ui/core/';
+import { Container, Typography, Button, Grid, Input, InputLabel, Box } from '@material-ui/core/';
 
 export const Information = () => {
     const key = "ee6c292cc23401ab20400f4e10c7c5e3f6c83a90";
@@ -39,19 +39,23 @@ export const Information = () => {
     return (
         <>
         <Typography variant="h1" align="center">CryptoGame</Typography>
+        <br/>
         <Grid container justify="center">
 
             <form onSubmit={handleSubmit}>
             <Grid>
-                <TextField label="Cryptocurrency" id="crypto" name="crypto" onChange={handleChange} />
+                <InputLabel>Cryptocurrency</InputLabel>
+                <Input placeholder="" id="crypto" name="crypto" onChange={handleChange} />
             </Grid>
-
+            <br/>
             <Grid>
-                <TextField label="Start Date" id="start" name="start" onChange={handleChange} />
+                <InputLabel>Start Date</InputLabel>
+                <Input placeholder="yyyy-mm-dd" id="start" name="start" onChange={handleChange} />
             </Grid>
-
+            <br/>
             <Grid>
-                <TextField label="End Date" id="end" name="end" onChange={handleChange} />
+                <InputLabel>End Date</InputLabel>
+                <Input placeholder="yyyy-mm-dd" id="end" name="end" onChange={handleChange} />
             </Grid>
             <br/>
             <Grid>
