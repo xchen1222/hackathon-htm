@@ -19,12 +19,10 @@ export const Information = () => {
     }
 
     const handleSubmit = async (e) => {
-        console.log(e.target.value)
         e.preventDefault();
         let linkToAPI = "https://api.nomics.com/v1/currencies/sparkline?key=" + key + "&ids=" + crypto + "&start=" + start + "T00:00:00Z&end=" + end + "T00:00:00Z";
         try {
             let response = await axios.get(linkToAPI)
-            console.log("test")
             console.log(response.data)
         } catch (error) {
             setError(error);
