@@ -1,4 +1,4 @@
-import { React, Component } from "react";
+import { React, Component, useEffect } from "react";
 import { CURRENCIES_NAME } from '../utils/constants';
 import Select, { createFilter } from 'react-select'
 import { FixedSizeList as List } from "react-window";
@@ -25,7 +25,11 @@ class MenuList extends Component {
 }
 
 export const Searchbar = () => {
+  const handleChange = (e) => {
+    console.log(e.label);
+  }
+
   return (
-    <Select filterOption={createFilter({ ignoreAccents: false })} components={{ MenuList }} options={CURRENCIES_NAME} />
+    <Select filterOption={createFilter({ ignoreAccents: false })} components={{ MenuList }} options={CURRENCIES_NAME} onChange={handleChange}/>
   )
 }
