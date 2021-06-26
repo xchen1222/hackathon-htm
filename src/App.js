@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import { Home } from "./pages/Home";
-import { Bitcoin } from "./pages/Bitcoin";
-import { Dogecoin } from "./pages/Dogecoin";
-import { Ethereum } from "./pages/Ethereum";
+import { Bitcoin } from "./components/Bitcoin";
+import { Dogecoin } from "./components/Dogecoin";
+import { Ethereum } from "./components/Ethereum";
 
 import './App.css';
 
