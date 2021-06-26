@@ -1,7 +1,31 @@
-import React from 'react'
+import { React, useState, Component, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom'
 import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { Container, Typography, Button, TextField, Grid, FormGroup, Box } from '@material-ui/core/';
+import { Container, Typography, Button, Grid, Input, InputLabel, Box } from '@material-ui/core/';
+import { CURRENCIES_NAME } from '../utils/constants';
+import Select, { createFilter } from 'react-select'
+import { FixedSizeList as List } from "react-window";
+import { InfoContext } from "../utils/InfoContext";
+
+const height = 35;
+class MenuList extends Component {
+  render() {
+    const { options, children, maxHeight, getValue } = this.props;
+    const [value] = getValue();
+    const initialOffset = options.indexOf(value) * height;
+
+    return (
+      <List
+        height={maxHeight}
+        itemCount={children.length}
+        itemSize={height}
+        initialScrollOffset={initialOffset}
+      >
+        {({ index, style }) => <div style={style}>{children[index]}</div>}
+      </List>
+    );
+  }
+}
 
 export const Information = () => {
     const key = "ee6c292cc23401ab20400f4e10c7c5e3f6c83a90";
@@ -13,9 +37,16 @@ export const Information = () => {
     const [end, setEnd] = useState("");
     const [error, setError] = useState("");
 
+    const { info, setInfo } = useContext(InfoContext);
+
+    useEffect(() => {
+        if (data.length !== 0) {
+            setDays(data[0].timestamps);
+            setPrices(data[0].prices);
+        }
+    }, [data])
+
     const handleChange = (e) => {
-        if (e.target.name === "crypto")
-        setCrypto(e.target.value);
         if (e.target.name === "start")
         setStart(e.target.value);
         if (e.target.name === "end")
@@ -29,38 +60,44 @@ export const Information = () => {
             let response = await axios.get(linkToAPI)
             console.log(response.data)
             setData(response.data)
-            setDays(data[0].timestamps)
-            setPrices(data[0].prices)
         } catch (error) {
+            console.log(error);
             setError(error);
         }
-
     }
+
+    const handleSelectChange = (e) => {
+      setCrypto(e.label);
+      // let temp = info["currentlyOwned"];
+      // temp[e.label] = 1;
+      // setInfo({ "currentlyOwned": temp });
+    }
+
     return (
         <>
-        <Typography variant="h1" align="center">CryptoGame</Typography>
+        <Typography variant="h1" align="center">CryptoGame</Typography> <br/>
         <Grid container justify="center">
 
             <form onSubmit={handleSubmit}>
-            <Grid>
-                <TextField label="Cryptocurrency" id="crypto" name="crypto" onChange={handleChange} />
-            </Grid>
+              <Select filterOption={createFilter({ ignoreAccents: false })} components={{ MenuList }} options={CURRENCIES_NAME} onChange={handleSelectChange}/>
 
-            <Grid>
-                <TextField label="Start Date" id="start" name="start" onChange={handleChange} />
-            </Grid>
+              <Grid>
+                  <InputLabel>Start Date</InputLabel>
+                  <Input placeholder="yyyy-mm-dd" id="start" name="start" onChange={handleChange} />
+              </Grid> <br/>
 
-            <Grid>
-                <TextField label="End Date" id="end" name="end" onChange={handleChange} />
-            </Grid>
-            <br/>
-            <Grid>
-                <Box textAlign="center">
-                <Button justify="center" type="submit" variant="contained" color="primary">
-                    Submit
-                </Button>
-                </Box>
-            </Grid>
+              <Grid>
+                  <InputLabel>End Date</InputLabel>
+                  <Input placeholder="yyyy-mm-dd" id="end" name="end" onChange={handleChange} />
+              </Grid>
+              <br/>
+              <Grid>
+                  <Box textAlign="center">
+                  <Button justify="center" type="submit" variant="contained" color="primary">
+                      Submit
+                  </Button>
+                  </Box>
+              </Grid>
             </form>
         </Grid>
         <br/>
@@ -72,6 +109,7 @@ export const Information = () => {
                 <Typography variant="h5" align="center">Current Price:  <br/> {prices[prices.length - 1]}</Typography>
             </Grid>
         </Grid>
+        <Link to="/">Click here to go back to home page</Link>
         </>
     )
 }
