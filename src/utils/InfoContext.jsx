@@ -22,6 +22,7 @@ function InfoProvider(props) {
 
   useEffect(() => {
     localStorage.setItem("info", JSON.stringify(info));
+    console.log(info);
   }, [info]);
 
   return (

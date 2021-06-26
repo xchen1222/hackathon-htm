@@ -1,7 +1,7 @@
 import { React, useState, Component, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom'
 import axios from 'axios';
-import { Container, Typography, Button, Grid, Input, InputLabel, Box } from '@material-ui/core/';
+import { Typography, Button, Grid, Input, InputLabel, Box } from '@material-ui/core/';
 import { CURRENCIES_NAME } from '../utils/constants';
 import Select, { createFilter } from 'react-select'
 import { FixedSizeList as List } from "react-window";
@@ -35,7 +35,7 @@ export const Information = () => {
     const [crypto, setCrypto] = useState("");
     const [start, setStart] = useState("");
     const [end, setEnd] = useState("");
-    const [error, setError] = useState("");
+    const [amount, setAmount] = useState(-1);
 
     const { info, setInfo } = useContext(InfoContext);
 
@@ -44,13 +44,24 @@ export const Information = () => {
             setDays(data[0].timestamps);
             setPrices(data[0].prices);
         }
+        else {
+            setDays([]);
+            setPrices([]);
+        }
     }, [data])
 
     const handleChange = (e) => {
         if (e.target.name === "start")
-        setStart(e.target.value);
+          setStart(e.target.value);
         if (e.target.name === "end")
-        setEnd(e.target.value);
+          setEnd(e.target.value);
+        if (e.target.name === "amount")
+          setAmount(e.target.value);
+    }
+
+    const handleSelectChange = (e) => {
+      setCrypto(e.label);
+      setData([]);
     }
 
     const handleSubmit = async (e) => {
@@ -58,19 +69,22 @@ export const Information = () => {
         let linkToAPI = "https://api.nomics.com/v1/currencies/sparkline?key=" + key + "&ids=" + crypto + "&start=" + start + "T00:00:00Z&end=" + end + "T00:00:00Z";
         try {
             let response = await axios.get(linkToAPI)
-            console.log(response.data)
             setData(response.data)
         } catch (error) {
             console.log(error);
-            setError(error);
         }
     }
 
-    const handleSelectChange = (e) => {
-      setCrypto(e.label);
-      // let temp = info["currentlyOwned"];
-      // temp[e.label] = 1;
-      // setInfo({ "currentlyOwned": temp });
+    const handlePurchase = async (e) => {
+        e.preventDefault();
+        let temp = info["currentlyOwned"];
+        if (crypto in temp) { //already own some
+            temp[crypto] += parseInt(amount);
+        }
+        else { //first time purchasing
+            temp[crypto] = parseInt(amount);
+        }
+        setInfo({ "currentlyOwned": temp });
     }
 
     return (
@@ -79,7 +93,10 @@ export const Information = () => {
         <Grid container justify="center">
 
             <form onSubmit={handleSubmit}>
-              <Select filterOption={createFilter({ ignoreAccents: false })} components={{ MenuList }} options={CURRENCIES_NAME} onChange={handleSelectChange}/>
+              <Grid>
+                  <InputLabel>Cryptocurrency</InputLabel>
+                  <Select filterOption={createFilter({ ignoreAccents: false })} components={{ MenuList }} options={CURRENCIES_NAME} onChange={handleSelectChange}/>
+              </Grid> <br/>
 
               <Grid>
                   <InputLabel>Start Date</InputLabel>
@@ -94,7 +111,7 @@ export const Information = () => {
               <Grid>
                   <Box textAlign="center">
                   <Button justify="center" type="submit" variant="contained" color="primary">
-                      Submit
+                      Search
                   </Button>
                   </Box>
               </Grid>
@@ -109,7 +126,29 @@ export const Information = () => {
                 <Typography variant="h5" align="center">Current Price:  <br/> {prices[prices.length - 1]}</Typography>
             </Grid>
         </Grid>
-        <Link to="/">Click here to go back to home page</Link>
+        <Link to="/">Click here to go back to home page</Link> <br/>
+
+        {
+          prices.length !== 0 ? 
+          <Grid container justify="center">
+              <form onSubmit={handlePurchase}>
+                <Grid>
+                    <InputLabel>Amount Purchased</InputLabel>
+                    <Input id="amount" name="amount" onChange={handleChange} />
+                </Grid> <br/>
+
+                <Grid>
+                    <Box textAlign="center">
+                    <Button justify="center" type="submit" variant="contained" color="primary">
+                        Submit
+                    </Button>
+                    </Box>
+                </Grid>
+              </form>
+          </Grid>
+          :
+          <> </>
+        }
         </>
     )
 }
