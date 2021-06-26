@@ -65,10 +65,10 @@ export const Information = () => {
         </Grid>
         <br/>
         <Grid container justify="center">
-            <Grid item={true} xs={6}>
+            <Grid item={true} xs={5}>
                 <Typography variant="h5" align="center">Current Day: <br/> {days[days.length - 1]}</Typography>
             </Grid>
-            <Grid item={true} xs={6}>
+            <Grid item={true} xs={5}>
                 <Typography variant="h5" align="center">Current Price:  <br/> {prices[prices.length - 1]}</Typography>
             </Grid>
         </Grid>
