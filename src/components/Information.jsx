@@ -1,9 +1,13 @@
 import React from 'react'
 import axios from 'axios';
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import { Container, Typography, Button, TextField, Grid, FormGroup, Box } from '@material-ui/core/';
 
 export const Information = () => {
-    const key = "";
+    const key = "ee6c292cc23401ab20400f4e10c7c5e3f6c83a90";
+    const [days, setDays] = useState([])
+    const [prices, setPrices] = useState([]);
+    const [data, setData] = useState([])
     const [crypto, setCrypto] = useState("");
     const [start, setStart] = useState("");
     const [end, setEnd] = useState("");
@@ -24,22 +28,50 @@ export const Information = () => {
         try {
             let response = await axios.get(linkToAPI)
             console.log(response.data)
+            setData(response.data)
+            setDays(data[0].timestamps)
+            setPrices(data[0].prices)
         } catch (error) {
             setError(error);
         }
 
     }
     return (
-        <div>
+        <>
+        <Typography variant="h1" align="center">CryptoGame</Typography>
+        <Grid container justify="center">
+
             <form onSubmit={handleSubmit}>
-            <label>Cryptocurrency:</label><br />
-            <input type="text" id="crypto" name="crypto" onChange={handleChange}></input><br />
-            <label>Start Date:</label><br />
-            <input type="text" id="start" name="start" onChange={handleChange}></input><br />
-            <label>End Date:</label><br />
-            <input type="text" id="end" name="end" onChange={handleChange}></input><br />
-            <input type="submit" value="Submit" />
+            <Grid>
+                <TextField label="Cryptocurrency" id="crypto" name="crypto" onChange={handleChange} />
+            </Grid>
+
+            <Grid>
+                <TextField label="Start Date" id="start" name="start" onChange={handleChange} />
+            </Grid>
+
+            <Grid>
+                <TextField label="End Date" id="end" name="end" onChange={handleChange} />
+            </Grid>
+            <br/>
+            <Grid>
+                <Box textAlign="center">
+                <Button justify="center" type="submit" variant="contained" color="primary">
+                    Submit
+                </Button>
+                </Box>
+            </Grid>
             </form>
-        </div>
+        </Grid>
+        <br/>
+        <Grid container justify="center">
+            <Grid item={true} xs={6}>
+                <Typography variant="h5" align="center">Current Day: <br/> {days[days.length - 1]}</Typography>
+            </Grid>
+            <Grid item={true} xs={6}>
+                <Typography variant="h5" align="center">Current Price:  <br/> {prices[prices.length - 1]}</Typography>
+            </Grid>
+        </Grid>
+        </>
     )
 }
