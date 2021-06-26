@@ -41,34 +41,34 @@ export const Information = () => {
         <Typography variant="h1" align="center">CryptoGame</Typography>
         <Grid container justify="center">
 
-            <FormGroup onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
             <Grid>
-                <TextField label="Cryptocurrency" type="text" id="crypto" name="crypto" onChange={handleChange} />
+                <TextField label="Cryptocurrency" id="crypto" name="crypto" onChange={handleChange} />
             </Grid>
 
             <Grid>
-                <TextField label="Start Date" type="text" id="start" name="start" onChange={handleChange} />
+                <TextField label="Start Date" id="start" name="start" onChange={handleChange} />
             </Grid>
 
             <Grid>
-                <TextField label="End Date" type="text" id="end" name="end" onChange={handleChange} />
+                <TextField label="End Date" id="end" name="end" onChange={handleChange} />
             </Grid>
             <br/>
             <Grid>
-                <Box textAlign='center'>
-                    <Button justify="center" type="submit" variant="contained" color="primary">
-                        Submit
-                    </Button>
+                <Box textAlign="center">
+                <Button justify="center" type="submit" variant="contained" color="primary">
+                    Submit
+                </Button>
                 </Box>
             </Grid>
-            </FormGroup>
+            </form>
         </Grid>
         <br/>
         <Grid container justify="center">
-            <Grid xs="5">
+            <Grid item={true} xs={6}>
                 <Typography variant="h5" align="center">Current Day: <br/> {days[days.length - 1]}</Typography>
             </Grid>
-            <Grid xs="5">
+            <Grid item={true} xs={6}>
                 <Typography variant="h5" align="center">Current Price:  <br/> {prices[prices.length - 1]}</Typography>
             </Grid>
         </Grid>
