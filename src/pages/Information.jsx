@@ -14,11 +14,11 @@ export const Information = () => {
     const [error, setError] = useState("");
 
     const handleChange = (e) => {
-        if (e.target.name == "crypto")
+        if (e.target.name === "crypto")
         setCrypto(e.target.value);
-        if (e.target.name == "start")
+        if (e.target.name === "start")
         setStart(e.target.value);
-        if (e.target.name == "end")
+        if (e.target.name === "end")
         setEnd(e.target.value);
     }
 
