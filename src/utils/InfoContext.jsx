@@ -12,6 +12,7 @@ const initialState = {
   currentlyOwned: {},
   lastDatePurchased: "",
   netWorth: 0,
+  amountSpent: 0,
 };
 
 const localState = JSON.parse(localStorage.getItem("info"));

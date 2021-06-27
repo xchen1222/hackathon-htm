@@ -90,7 +90,7 @@ export const Information = () => {
 
     const handleBuy = async (e) => {
         e.preventDefault();
-        let total = info["netWorth"];
+        let total = info["amountSpent"];
         let temp = info["currentlyOwned"];
         if (crypto in temp) { //already own some
             temp[crypto] += parseInt(amount);
@@ -103,12 +103,12 @@ export const Information = () => {
 
         setInfo({"currentlyOwned": temp });
         setInfo({"lastDatePurchased": date});
-        setInfo({"netWorth": total});
+        setInfo({"amountSpent": total});
     }
 
     const handleSell = async (e) => {
         e.preventDefault();
-        let total = info["netWorth"];
+        let total = info["amountSpent"];
         let temp = info["currentlyOwned"];
         if (crypto in temp) { //already own some
             temp[crypto] -= parseInt(amount);
@@ -150,18 +150,30 @@ export const Information = () => {
               <Grid>
                   <Box textAlign="center">
                   <Button justify="center" type="submit" variant="contained" color="primary">
-                      Search
+                        Search
                   </Button>
                   </Box>
               </Grid>
+
+              <Grid>
+                {/* send to results page, and results page pulls networth from info context for a summary/etc */}
+                <Box textAlign="center" m={2}> 
+                <Link to="/results" style={{ textDecoration: 'none' }}>
+                    <Button type="submit" variant="contained" color="primary">
+                        End Game
+                    </Button>
+                </Link>
+                </Box>
+            </Grid>
             </form>
+            
         </Grid>
         <br/>
         <Grid container justify="center">
-            <Grid item={true} xs={5}>
+            <Grid item xs={5}>
                 <Typography variant="h5" align="center">Selected Date: <br/> {days}</Typography>
             </Grid>
-            <Grid item={true} xs={5}>
+            <Grid item xs={5}>
                 <Typography variant="h5" align="center">Current Price:  <br/> {prices}</Typography>
             </Grid>
         </Grid>
@@ -195,7 +207,7 @@ export const Information = () => {
                 </form>
 
                 <br/>
-                <Grid xs={12}>
+                <Grid item xs={12}>
                     <Box textAlign="center" m={3}>
                         <Button variant="contained" color="primary" onClick={handleReset}>
                             Reset
