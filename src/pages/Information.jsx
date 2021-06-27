@@ -134,7 +134,7 @@ export const Information = () => {
         total -= amount * prices;
 
         setInfo({"currentlyOwned": temp });
-        setInfo({"lastDatePurchased": date});
+        setInfo({"lastDatePurchased": days});
         setInfo({"amountSpent": total});
       
     }
