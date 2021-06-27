@@ -11,6 +11,8 @@ let reducer = (info, newInfo) => {
 const initialState = {
   currentlyOwned: {},
   lastDatePurchased: "",
+  netWorth: 0,
+  amountSpent: 0,
 };
 
 const localState = JSON.parse(localStorage.getItem("info"));
@@ -22,6 +24,7 @@ function InfoProvider(props) {
 
   useEffect(() => {
     localStorage.setItem("info", JSON.stringify(info));
+    console.log(info);
   }, [info]);
 
   return (
