@@ -40,8 +40,8 @@ export const Information = () => {
 
     useEffect(() => {
         if (data.length !== 0) {
-            setDays(newDate);
-            setPrices(newPrice);
+            setDays(data[0].timestamps[0]);
+            setPrices(data[0].prices[0]);
         }
         else {
             setDays([]);
