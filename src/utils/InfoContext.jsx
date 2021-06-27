@@ -11,6 +11,7 @@ let reducer = (info, newInfo) => {
 const initialState = {
   currentlyOwned: {},
   lastDatePurchased: "",
+  netWorth: 0,
 };
 
 const localState = JSON.parse(localStorage.getItem("info"));

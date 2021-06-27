@@ -88,8 +88,9 @@ export const Information = () => {
         }
     }
 
-    const handlePurchase = async (e) => {
+    const handleBuy = async (e) => {
         e.preventDefault();
+        let total = info["netWorth"];
         let temp = info["currentlyOwned"];
         if (crypto in temp) { //already own some
             temp[crypto] += parseInt(amount);
@@ -97,7 +98,37 @@ export const Information = () => {
         else { //first time purchasing
             temp[crypto] = parseInt(amount);
         }
-        setInfo({ "currentlyOwned": temp });
+        
+        total += amount * prices;
+
+        setInfo({"currentlyOwned": temp });
+        setInfo({"lastDatePurchased": date});
+        setInfo({"netWorth": total});
+    }
+
+    const handleSell = async (e) => {
+        e.preventDefault();
+        let total = info["netWorth"];
+        let temp = info["currentlyOwned"];
+        if (crypto in temp) { //already own some
+            temp[crypto] -= parseInt(amount);
+        }
+        else { //first time purchasing
+            temp[crypto] = parseInt(amount);
+        }
+        
+        total -= amount * prices;
+
+        setInfo({"currentlyOwned": temp });
+        setInfo({"lastDatePurchased": date});
+        setInfo({"netWorth": total});
+    }
+
+    const handleReset = async (e) => {
+        e.preventDefault();
+        setInfo({"currentlyOwned": {} });
+        setInfo({"lastDatePurchased": ""});
+        setInfo({"netWorth": 0});
     }
 
     return (
@@ -137,23 +168,42 @@ export const Information = () => {
         <Link to="/">Click here to go back to home page</Link> <br/>
 
         {
-          prices.length !== 0 ? 
-          <Grid container justify="center">
-              <form onSubmit={handlePurchase}>
+            prices.length !== 0 ? 
+            <Grid container justify="center">
+                <form>
                 <Grid>
-                    <InputLabel>Amount Purchased</InputLabel>
+                    <InputLabel>Select Amount</InputLabel>
                     <Input id="amount" name="amount" onChange={handleChange} />
                 </Grid> <br/>
 
-                <Grid>
-                    <Box textAlign="center">
-                    <Button justify="center" type="submit" variant="contained" color="primary">
-                        Submit
-                    </Button>
+                <Grid container justify="center">
+                    <Grid item xs={6}>
+                        <Box textAlign="center" >
+                            <Button type="submit" variant="contained" color="primary" onClick={handleBuy}>
+                                Buy
+                            </Button>
+                        </Box>
+                    </Grid>   
+                    <Grid item xs={6}>   
+                        <Box textAlign="center">
+                            <Button type="submit" variant="contained" color="primary" onClick={handleSell}>
+                                Sell
+                            </Button>
+                        </Box>
+                    </Grid>   
+                </Grid>
+                </form>
+
+                <br/>
+                <Grid xs={12}>
+                    <Box textAlign="center" m={3}>
+                        <Button variant="contained" color="primary" onClick={handleReset}>
+                            Reset
+                        </Button>
                     </Box>
                 </Grid>
-              </form>
-          </Grid>
+                
+            </Grid>
           :
           <> </>
         }
