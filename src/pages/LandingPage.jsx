@@ -12,7 +12,7 @@ export const LandingPage = () => {
                             <IconButton edge="start" className={'classes.menuButton'} color="inherit" aria-label="menu">
                             </IconButton>
                             <Typography variant="h6" className={'classes.title'}>
-                                <Link to="/home" style={{color: 'white'}}> <Button color="inherit" >Home</Button></Link>
+                                <Link to="/" style={{color: 'white'}}> <Button color="inherit" >Home</Button></Link>
                             </Typography>
                             <h1 style={{paddingLeft:"50px"}}color="inherit">Free to Play</h1> 
                         </Toolbar>
@@ -37,7 +37,7 @@ export const LandingPage = () => {
                 
 
             </div>
-            <div style = {{height:"60vh", backgroundColor: '#14e0e3'}}>
+            <div style = {{height:"65vh", backgroundColor: '#14e0e3'}}>
                 <h1 style = {{ marginTop: 0}} align = "center" >Choose from over 1500 different types of Cryptocurrencies</h1>
                 <p align = "center"> What Are Cryptocurrencies? Cryptocurrency is a form of currency that exists solely in digital form. Cryptocurrency can be used to pay for purchases online without going through an intermediary, such as a bank, or it can be held as an investment. </p>
                 <div className = "center">
