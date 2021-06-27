@@ -30,7 +30,7 @@ class MenuList extends Component {
 export const Information = () => {
     const key = "ee6c292cc23401ab20400f4e10c7c5e3f6c83a90";
     const [days, setDays] = useState("")
-    const [prices, setPrices] = useState("");
+    const [prices, setPrices] = useState("0");
     const [data, setData] = useState([])
     const [crypto, setCrypto] = useState("");
     const [date, setDate] = useState("");
@@ -44,8 +44,8 @@ export const Information = () => {
             setPrices(data[0].prices[0]);
         }
         else {
-            setDays([]);
-            setPrices([]);
+            setDays("");
+            setPrices("0");
         }
     }, [data])
 
@@ -121,7 +121,7 @@ export const Information = () => {
 
         setInfo({"currentlyOwned": temp });
         setInfo({"lastDatePurchased": date});
-        setInfo({"netWorth": total});
+        setInfo({"amountSpent": total});
     }
 
     const handleReset = async (e) => {
@@ -129,6 +129,13 @@ export const Information = () => {
         setInfo({"currentlyOwned": {} });
         setInfo({"lastDatePurchased": ""});
         setInfo({"netWorth": 0});
+        setInfo({"amountSpent": 0});
+    }
+
+    function calc(theform) {
+        var num = theform.original.value, rounded = theform.rounded
+        var with2Decimals = num.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]
+        rounded.value = with2Decimals
     }
 
     return (
@@ -171,10 +178,10 @@ export const Information = () => {
         <br/>
         <Grid container justify="center">
             <Grid item xs={5}>
-                <Typography variant="h5" align="center">Selected Date: <br/> {days}</Typography>
+                <Typography variant="h5" align="center">Selected Date: <br/> {days.substring(0, 10)}</Typography>
             </Grid>
             <Grid item xs={5}>
-                <Typography variant="h5" align="center">Current Price:  <br/> {prices}</Typography>
+                <Typography variant="h5" align="center">Current Price:  <br/> ${parseFloat(prices).toFixed(2)}</Typography>
             </Grid>
         </Grid>
         <Link to="/">Click here to go back to home page</Link> <br/>
