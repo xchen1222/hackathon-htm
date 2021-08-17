@@ -2,6 +2,9 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Crypto games was made to help new people get familar with cryptocurriences. They app allows the user to trade from a wide range of crypto currencies.
+Prices for the crypto are based on past values their day to day price flucuations simulate how they would be traded today.
+
 ## Available Scripts
 
 In the project directory, you can run:
